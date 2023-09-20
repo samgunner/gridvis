@@ -85,7 +85,7 @@ async def display_LEDS():
             if message is None: 
                 continue
             # and if there is then update the signal history
-            signal_history = list((message, *signal_history[:blinkt.NUM_PIXELS]))
+            signal_history = list((message, *signal_history[:(blinkt.NUM_PIXELS-1)]))
         
         if signal_history:
             # set the plusing on the LED 0, 

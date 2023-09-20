@@ -1,0 +1,14 @@
+[Unit]
+Description=Twinergy Grid Intensity Traffic Light Indication, including the historic data
+After=network.target
+StartLimitIntervalSec=0
+
+[Service]
+Type=simple
+Restart=always
+RestartSec=1
+User=gridvis
+ExecStart=/usr/bin/python3 /home/gridvis/bin/gridvis/twinergy_nat_LEDS_Lucas.py
+
+[Install]
+WantedBy=multi-user.target
