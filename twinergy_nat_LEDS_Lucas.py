@@ -103,7 +103,7 @@ async def display_LEDS():
                     upordown = 1
     
             # now for the other LED go through the history and update accordingly
-            for i in range(1,blinkt.NUM_PIXELS):
+            for i in range(1,len(signal_history)):
                 blinkt.set_pixel(i, *wordToRGB(signal_history[i]))
     
             blinkt.show()
