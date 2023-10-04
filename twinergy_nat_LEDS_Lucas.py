@@ -68,15 +68,23 @@ async def nat_sub():
 async def display_LEDS():
 
     # the list that will contain the historic value.
-    signal_history = list()
+    #signal_history = list()
     # a test starting history, so that we don't have to wait forever...
-    #signal_history = list(('red','green', 'yellow', 'green', 'yellow', 'red', 'green', 'yellow'))
+    signal_history = list(('green', 'green', 'green', 'yellow', 'yellow','yellow', 'red', 'red'))
 
     # a variable that will be counted through to make the left most LED flash
     t = 0
     
     # and a variable say if the flashing is going up or down, 1 is up, -1 is down.
     upordown = 1
+
+    # adding a flag for weather right to left or left to right
+    # to get this to work I'm going to reffer to teh leds via a list that will
+    # be populated either up or down
+    if (False):
+        leds = {i:i for i in range(blinkt.NUM_PIXELS)}
+    else:
+        leds = {i:(blinkt.NUM_PIXELS-i-1) for i in range(blinkt.NUM_PIXELS)}
 
     while True:
         # check to see if there is anything in the queue
@@ -88,8 +96,8 @@ async def display_LEDS():
             signal_history = list((message, *signal_history[:(blinkt.NUM_PIXELS-1)]))
         
         if signal_history:
-            # set the plusing on the LED 0, 
-            blinkt.set_pixel(0, *[int(i*(t/pulse_steps)) 
+            # set the plusing on the LED     0, 
+            blinkt.set_pixel(leds[0], *[int(i*(t/pulse_steps)) 
                 for i in wordToRGB(signal_history[0])])
     
             # either increment or decrement the pulse brightness value.
@@ -103,8 +111,8 @@ async def display_LEDS():
                     upordown = 1
     
             # now for the other LED go through the history and update accordingly
-            for i in range(1,len(signal_history)):
-                blinkt.set_pixel(i, *wordToRGB(signal_history[i]))
+            for i in range(blinkt.NUM_PIXELS)[1:]:
+                blinkt.set_pixel(leds[i], *wordToRGB(signal_history[i]))
     
             blinkt.show()
     
